@@ -1,0 +1,28 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "jr-rsch-ml"
+version = "0.1.0"
+description = ""
+authors = ["Yogesh Thambidurai <gyogesh2015@outlook.com>"]
+readme = "README.md"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "poetry"
+major_version_zero = true
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.25.2"
+matplotlib = "^3.7.2"
+pandas = "^2.0.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+commitizen = "^3.6.0"
+pre-commit = "^3.3.3"
