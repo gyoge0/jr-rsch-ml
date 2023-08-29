@@ -17,10 +17,11 @@ version_provider = "poetry"
 major_version_zero = true
 
 [tool.poetry.dependencies]
-python = "^3.11"
-numpy = "^1.25.2"
+python = ">=3.10,<3.11"
 matplotlib = "^3.7.2"
 pandas = "^2.0.3"
+tensorflow-io-gcs-filesystem = "0.31.0"
+tensorflow = "^2.13.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.7.0"
