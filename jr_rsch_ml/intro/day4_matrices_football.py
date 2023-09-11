@@ -52,11 +52,11 @@ def max_num_of_attempts():
     # ==> RETURN THE NAME OF THE QB WITH THE MAX NUMBER OF ATTEMPTS AND THE ATTEMPT
     #     COUNT
     # =============================================================================
-    name, attempts = matrix1998[matrix1998_no_names[:, 0].argmax(), :2]
+    name, attempts = matrix1998[matrix1998_no_names[:, 0].argmax() + 1, :2]
     print(matrix1998_no_names.max(axis=0))
     # MaxValueByColum
     # MaxIndexByColumn
-    return name, attempts
+    return name, str(attempts)
 
 
 def dot_product():
