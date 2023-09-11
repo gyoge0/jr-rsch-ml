@@ -3,7 +3,7 @@ __pycache__
 venv
 .ipynb_checkpoints
 
-.idea
+.idea/*
 !.idea/.gitignore
 !.idea/jr-rsch-ml.iml
 !.idea/modules.xml
