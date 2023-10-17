@@ -1,22 +1,115 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import csv
+import numpy as np
 
 
-# %%
+def mean_square_error(x, w, y):
+    return ((x.dot(w) - y) ** 2).mean()
 
 
-def cost(X, W, Y):
-    return ((X.dot(W) - Y) ** 2).mean()
+def gradient(x, w, y):
+    """
+    Calculate the gradient of mean squared error
+    :param x: input
+    :param w: weights
+    :param y: output
+    :return: the gradient
+    """
+    err = x.dot(w) - y
+    return x.T.dot(err) / len(y)
 
 
-def gradient(X, W, Y):
-    err = X.dot(W) - Y
-    gradient = X.T.dot(err) / len(Y)
-    return gradient
+def normalize_x(n_x, original):
+    """
+    Normalizes input data
+    :param n_x: input data
+    :param original: original dataset
+    :return: normalized data
+    """
+    o_std = np.std(original[:, :-1], axis=0)
+    o_mean = np.mean(original[:, :-1], axis=0)
+    n_normal = (n_x - o_mean) / o_std
+    return n_normal, o_mean, o_std
 
 
-# %%
+def create_xy(original):
+    """
+    Creates input and output arrays
+    :param original: original data
+    :return: input and output data
+    """
+    x = original[:, :-1]
+    x, _, _ = normalize_x(x, original)
+    x = np.hstack((np.ones((len(x), 1)), x))
+    y = original[:, -1][:, None]
+    return x, y
+
+
+def fit_regression(
+    x,
+    y,
+    weights,
+    max_iterations=1000000,
+    learning_rate=0.1,
+    goal_error=0.001,
+    precision=7,
+    print_info=False,
+    check_interval=1,
+):
+    """
+    Fits a linear regression
+    :param x: input data
+    :param y: output data
+    :param weights: initial weights
+    :param max_iterations: maximum iterations
+    :param learning_rate: learning rate
+    :param goal_error: goal error
+    :param precision: decimals to check when determining if error has stopped changing
+    :param print_info: if info should be printed while fitting
+    :param check_interval: how many iterations between checking to stop
+    :return: the final weights
+    """
+    last_mse = -1
+    i = 0
+    while mean_square_error(x, weights, y) > goal_error and i < max_iterations:
+        i += 1
+        weights = weights - learning_rate * gradient(x, weights, y)
+        if i % check_interval == 0:
+            if print_info:
+                print(f"{i} {mean_square_error(x, weights, y)}")
+
+            if round(mean_square_error(x, weights, y), precision) == last_mse:
+                break
+            else:
+                last_mse = round(mean_square_error(x, weights, y), precision)
+
+    if not print_info:
+        pass
+    elif i >= 100000:
+        print("reached max iterations")
+    elif mean_square_error(x, weights, y) <= 0.001:
+        print("reached goal error")
+    else:
+        print("weights not changing")
+
+    return weights
+
+
+def predict(input_data, weights, original):
+    """
+    Predict using a linear regression
+    :param input_data: unnormalized input data
+    :param weights: weights from regression
+    :param original: original data
+    :return:
+    """
+    input_data, _, _ = normalize_x(input_data, original)
+    np.hstack((input_data, np.ones((1, 1))))
+    pred = input_data.dot(weights)
+    _, y = create_xy(original)
+    error = mean_square_error(input_data, weights, y)
+    return pred, error
+
+
 def read_csv(file):
     lines = []
     with open(file, "r") as f:
@@ -25,25 +118,26 @@ def read_csv(file):
     return lines
 
 
-m = read_csv("src/intro/7_murder_unemployment.csv")
-m = np.asarray(m)[1:, 1:].astype(np.float64)
+def _main():
+    # murder_unemployment = read_csv("src/intro/7_murder_unemployment.csv")
+    murder_unemployment = read_csv(
+        "C:/users/875367/Code/jr-rsch-ml/src/intro/7_murder_unemployment.csv"
+    )
+    murder_unemployment = np.asarray(murder_unemployment)[1:, 2:].astype(np.float64)
 
-# %%
-m[:, 1:] = (m[:, 1:] - m[:, 1:].mean(axis=0)) / (m[:, 1:].max(axis=0))
-X = m[:, 1:]
-y = m[:, -1].reshape((20, 1))
-W = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
+    x, y = create_xy(murder_unemployment)
+    w = fit_regression(
+        x=x,
+        y=y,
+        weights=np.array([2, 1, 1]).reshape((3, 1)),
+    )
 
-# %%
-lr = 0.1
-i = 0
-while cost(X, W, y) > 0.00000001 and i < 100000:
-    i += 1
-    W = W - lr * gradient(X, W, y)
-    print(f"{i} {cost(X, W, y)}")
+    print(f"cost: {mean_square_error(x, w, y)}")
+    print(f"weights: {w}")
 
-print(f"cost: {cost(X, W, y)}")
-print(f"weights: {W}")
+    prediction = predict(np.array([22.4, 8.6]), w, murder_unemployment)
+    print(prediction)
 
-# %%
-print(cost(X, W, y))
+
+if __name__ == "__main__":
+    _main()
