@@ -39,7 +39,8 @@ def create_xy(original):
     """
     x = original[:, :-1]
     x, _, _ = normalize_x(x, original)
-    x = np.hstack((np.ones((len(x), 1)), x))
+    bias = np.ones((len(x), 1))
+    x = np.hstack((bias, x))
     y = original[:, -1][:, None]
     return x, y
 
@@ -103,7 +104,8 @@ def predict(input_data, weights, original):
     :return:
     """
     input_data, _, _ = normalize_x(input_data, original)
-    np.hstack((input_data, np.ones((1, 1))))
+    bias = np.ones((len(input_data), 1))
+    input_data = np.hstack((bias, input_data))
     pred = input_data.dot(weights)
     _, y = create_xy(original)
     error = mean_square_error(input_data, weights, y)
@@ -119,23 +121,33 @@ def read_csv(file):
 
 
 def _main():
-    # murder_unemployment = read_csv("src/intro/7_murder_unemployment.csv")
+    # murder_unemployment = read_csv("src/d7_murder_unemployment.csv")
     murder_unemployment = read_csv(
-        "C:/users/875367/Code/jr-rsch-ml/src/intro/7_murder_unemployment.csv"
+        "C:/users/875367/Code/jr-rsch-ml/src/d7_murder_unemployment.csv"
     )
     murder_unemployment = np.asarray(murder_unemployment)[1:, 2:].astype(np.float64)
 
+    # %%
+
     x, y = create_xy(murder_unemployment)
+    # %%
+    w = np.array([2, 1, 1]).reshape((3, 1))
+    print(f"cost: {mean_square_error(x, w, y)}")
     w = fit_regression(
         x=x,
         y=y,
         weights=np.array([2, 1, 1]).reshape((3, 1)),
+        learning_rate=0.94,
+        print_info=True,
     )
 
+    # %%
     print(f"cost: {mean_square_error(x, w, y)}")
     print(f"weights: {w}")
 
-    prediction = predict(np.array([22.4, 8.6]), w, murder_unemployment)
+    # %%
+
+    prediction = predict(np.array([22.4, 8.6]).reshape((1, 2)), w, murder_unemployment)
     print(prediction)
 
 
