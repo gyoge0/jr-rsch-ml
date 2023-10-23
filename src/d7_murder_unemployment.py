@@ -55,6 +55,7 @@ def fit_regression(
     precision=7,
     print_info=False,
     check_interval=1,
+    return_i=False,
 ):
     """
     Fits a linear regression
@@ -92,7 +93,10 @@ def fit_regression(
     else:
         print("weights not changing")
 
-    return weights
+    if return_i:
+        return weights, i
+    else:
+        return weights
 
 
 def predict(input_data, weights, original):
