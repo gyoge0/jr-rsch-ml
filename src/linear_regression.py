@@ -31,6 +31,12 @@ def normalize_x(n_x, original):
     return n_normal, o_mean, o_std
 
 
+def add_bias(original):
+    bias = np.ones((len(original), 1))
+    original = np.hstack((bias, original))
+    return original
+
+
 def create_xy(original):
     """
     Creates input and output arrays
@@ -39,8 +45,7 @@ def create_xy(original):
     """
     x = original[:, :-1]
     x, _, _ = normalize_x(x, original)
-    bias = np.ones((len(x), 1))
-    x = np.hstack((bias, x))
+    x = add_bias(x)
     y = original[:, -1][:, None]
     return x, y
 
@@ -108,8 +113,7 @@ def predict(input_data, weights, original):
     :return:
     """
     input_data, _, _ = normalize_x(input_data, original)
-    bias = np.ones((len(input_data), 1))
-    input_data = np.hstack((bias, input_data))
+    input_data = add_bias(input_data)
     pred = input_data.dot(weights)
     _, y = create_xy(original)
     error = mean_square_error(input_data, weights, y)
