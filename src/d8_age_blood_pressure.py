@@ -1,6 +1,6 @@
 import numpy as np
 
-from d7_murder_unemployment import (
+from linear_regression import (
     fit_regression,
     mean_square_error,
     create_xy,
