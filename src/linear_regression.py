@@ -120,12 +120,49 @@ def predict(input_data, weights, original):
     return pred, error
 
 
+def best_lr(
+    x,
+    y,
+    w_initial,
+    lower_bound,
+    upper_bound,
+    step,
+    print_lrs=False,
+):
+    best_lr = 0
+    best_i = np.inf
+    for lr in np.linspace(
+        lower_bound, upper_bound, round((upper_bound - lower_bound) / step)
+    ):
+        _, i = fit_regression(
+            x=x,
+            y=y,
+            weights=w_initial,
+            learning_rate=lr,
+            print_info=False,
+            return_i=True,
+        )
+        if i <= best_i:
+            best_lr = lr
+            best_i = i
+        if print_lrs:
+            print(f"lr: {lr} \t iterations: {i}")
+
+    return best_lr, best_i
+
+
 def read_csv(file):
     lines = []
     with open(file, "r") as f:
         for row in csv.reader(f, delimiter=",", quotechar='"'):
             lines.append(row)
     return lines
+
+
+def initial_weights(x):
+    _, h = x.shape
+    w = np.repeat(0.5, h).reshape((h, 1))
+    return w
 
 
 def _main():

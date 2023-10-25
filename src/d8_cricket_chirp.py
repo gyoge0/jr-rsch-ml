@@ -27,29 +27,3 @@ w = fit_regression(
 )
 print(f"cost: {mean_square_error(x, w, y)}")
 print(f"weights: {w}")
-
-
-# %%
-best = min(
-    dict(
-        map(
-            lambda lr: (
-                lr / 10000,
-                fit_regression(
-                    x=x,
-                    y=y,
-                    weights=w,
-                    print_info=False,
-                    check_interval=1,
-                    learning_rate=lr / 100,
-                    return_i=True,
-                )[1],
-            ),
-            range(10, 15000, 10),
-        )
-    ).items(),
-    key=lambda lr: lr[0],
-)
-
-print(best)
-# %%
