@@ -56,7 +56,7 @@ def fit_regression(
     weights,
     max_iterations=1000000,
     learning_rate=0.1,
-    goal_error=0.001,
+    goal_error=0.000000001,
     precision=7,
     print_info=False,
     check_interval=1,
@@ -161,7 +161,7 @@ def read_csv(file):
 
 def initial_weights(x):
     _, h = x.shape
-    w = np.repeat(0.5, h).reshape((h, 1))
+    w = np.repeat(0, h).reshape((h, 1))
     return w
 
 
