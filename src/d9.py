@@ -8,9 +8,14 @@ def seperator():
 
 
 # %%
-f_name = "cereal"
+f_name = "2D"
 skip_header = True
-use_cols = (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+# use_cols = (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+# use_cols = (0, 1, 2, 6)
+# use_cols = (2, 3)
+# use_cols = (0, 1, 2, 4)
+# use_cols = (1, 0)
+use_cols = (0, 1, 2, 3, 4)
 
 # %%
 
@@ -50,23 +55,29 @@ seperator()
 print(f"initial weights: {w_initial}")
 
 # %%
-w_final = lin.fit_regression(
+w_final, ret = lin.fit_regression(
     x=x_train,
     y=y_train,
     weights=w_initial,
     max_iterations=1000000,
-    learning_rate=0.5,
-    goal_error=0.001,
+    learning_rate=0.7,
+    goal_error=0.00001,
     precision=7,
-    print_info=False,
+    print_info=True,
     check_interval=1,
     return_i=False,
+    ret=True,
 )
 
 seperator()
 print(f"final weights: {w_final}")
 print(f"initial cost: {lin.mean_square_error(x_train, w_initial, y_train)}")
 print(f"final cost: {lin.mean_square_error(x_train, w_final, y_train)}")
+
+# %%
+w_fancy = np.linalg.inv(x_train.T.dot(x_train)).dot(x_train.T).dot(y_train)
+print(f": fancy weights: {w_fancy}")
+
 # %%
 
 best_lr, best_i = lin.best_lr(
@@ -121,4 +132,9 @@ else:
         ax[i].scatter(ds[:, i], ds[:, -1])
 
 fig.tight_layout()
+plt.show()
+
+# %%
+skip = 12
+plt.scatter(range(len(ret[skip:])), ret[skip:])
 plt.show()

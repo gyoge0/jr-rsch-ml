@@ -61,6 +61,7 @@ def fit_regression(
     print_info=False,
     check_interval=1,
     return_i=False,
+    ret=False,
 ):
     """
     Fits a linear regression
@@ -77,9 +78,11 @@ def fit_regression(
     """
     last_mse = -1
     i = 0
+    cost = []
     while mean_square_error(x, weights, y) > goal_error and i < max_iterations:
         i += 1
         weights = weights - learning_rate * gradient(x, weights, y)
+        cost.append(mean_square_error(x, weights, y))
         if i % check_interval == 0:
             if print_info:
                 print(f"{i} {mean_square_error(x, weights, y)}")
@@ -97,6 +100,9 @@ def fit_regression(
         print("reached goal error")
     else:
         print("weights not changing")
+
+    if ret:
+        return weights, cost
 
     if return_i:
         return weights, i
