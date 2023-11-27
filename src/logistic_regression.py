@@ -13,7 +13,7 @@ def logistic_error(x, w, y):
 
 def gradient(x, w, y):
     err = sigmoid(x.dot(w)) - y
-    return err.dot(x) / len(y)
+    return (err.T.dot(x) / len(y)).reshape(-1, 1)
 
 
 def fit_regression(
@@ -61,3 +61,64 @@ def fit_regression(
         return weights, i
     else:
         return weights
+
+
+def calc_confusion_matrix(p, y, print_info=False):
+    tpc = (p[y == 1] == 1).sum()
+    tnc = (p[y == 0] == 0).sum()
+    fpc = (p[y == 0] == 1).sum()
+    fnc = (p[y == 1] == 0).sum()
+
+    total_pos = (y == 1).sum()
+    total_neg = (y == 0).sum()
+    accuracy = (tpc + tnc) / (total_pos + total_neg)
+    recall = tpc / (tpc + fnc)
+    precision = tpc / (tpc + fpc)
+
+    f_score = (2 * precision * recall) / (precision + recall)
+
+    info = {
+        "TPC": tpc,
+        "TNC": tnc,
+        "FPC": fpc,
+        "FNC": fnc,
+        "TP": total_pos,
+        "TN": total_neg,
+        "accuracy": accuracy,
+        "recall": recall,
+        "precision": precision,
+    }
+
+    if print_info:
+        print(
+            "\nTrue Positives: \t\t",
+            tpc,
+            "\nPercent Positives correct:\t",
+            f"{(tpc/total_pos):.0%}\n",
+        )
+        print(
+            "False Positives: \t\t",
+            fpc,
+            "\nPercent Positives Incorrect:\t",
+            f"{(fpc/total_pos):.0%}\n",
+        )
+        print(
+            "True Negatives: \t\t",
+            tnc,
+            "\nPercent Negatives correct:\t",
+            f"{(tnc/total_neg):.0%}\n",
+        )
+        print(
+            "False Negatives: \t\t",
+            fnc,
+            "\nPercent Negatives incorrect:\t",
+            f"{(fnc/total_neg):.0%}\n",
+        )
+
+        print("\nPrecision: \t\t\t", f"{precision:.0%}")
+        print("Recall:\t\t\t\t", f"{recall:.0%}")
+        print("\nF1: \t\t\t\t", f"{f_score:.0%}")
+
+        print("Accuracy: \t\t\t", f"{accuracy:.0%}")
+
+    return info
