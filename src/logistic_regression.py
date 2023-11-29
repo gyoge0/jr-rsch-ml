@@ -13,7 +13,8 @@ def logistic_error(x, w, y):
 
 def gradient(x, w, y):
     err = sigmoid(x.dot(w)) - y
-    return (err.T.dot(x) / len(y)).reshape(-1, 1)
+    h, _ = w.shape
+    return (err.T.dot(x) / len(y)).T
 
 
 def fit_regression(
@@ -61,6 +62,10 @@ def fit_regression(
         return weights, i
     else:
         return weights
+
+
+def argmax_predict(x, w):
+    return np.argmax(x.dot(w), axis=1)
 
 
 def calc_confusion_matrix(p, y, print_info=False):
@@ -122,3 +127,9 @@ def calc_confusion_matrix(p, y, print_info=False):
         print("Accuracy: \t\t\t", f"{accuracy:.0%}")
 
     return info
+
+
+def initial_weights(x, num=1):
+    _, h = x.shape
+    w = np.repeat(0, h * num).reshape((h, num))
+    return w
