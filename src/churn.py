@@ -43,8 +43,10 @@ x = np.hstack(
 x_mean = x[:, 0:3].mean(axis=0)
 x_std = x[:, 0:3].std(axis=0)
 x[:, 0:3] = (x[:, 0:3] - x_mean) / x_std
-x = lin.add_bias(x)
 
+# %%
+bias = np.ones((len(x), 1))
+x = np.hstack((bias, x))
 
 # %%
 weights = lin.initial_weights(x)
@@ -57,7 +59,7 @@ weights, iterations = log.fit_regression(
     weights,
     print_info=True,
     check_interval=100,
-    learning_rate=1,
+    learning_rate=0.1,
     precision=10,
     return_i=True,
 )
@@ -65,7 +67,7 @@ print(f"final cost:\t\t\t{log.logistic_error(x, weights, y)}")
 print(f"iterations:\t\t\t{iterations}")
 
 # %%
-p_train = x.dot(weights)
+p_train = log.sigmoid(x.dot(weights))
 p_train = p_train > 0.5
 y_train = y > 0.5
 
