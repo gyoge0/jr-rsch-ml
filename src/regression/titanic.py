@@ -5,7 +5,7 @@ import linear as lin
 
 # %%
 data = np.genfromtxt(
-    fname=r"C:\Users\875367\Code\jr-rsch-ml\datasets\titanic_train.csv",
+    fname=r"C:\Users\875367\Code\jr-rsch-ml\datasets\linear\titanic_train.csv",
     usecols=(2, 5, 6, 7, 8, 10, 12, 1),
     skip_header=1,
     delimiter=",",
@@ -99,7 +99,7 @@ for i in [0.375, 0.376, 0.377, 0.378, 0.379, 0.38, 0.381, 0.382, 0.383, 0.384, 0
 
 # %%
 x_test = np.genfromtxt(
-    fname=r"C:\Users\875367\Code\jr-rsch-ml\datasets\titanic_test.csv",
+    fname=r"C:\Users\875367\Code\jr-rsch-ml\datasets\linear\titanic_test.csv",
     usecols=(1, 4, 5, 6, 7, 9, 11),
     skip_header=1,
     delimiter=",",

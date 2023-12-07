@@ -5,7 +5,7 @@ import regression.linear as lin
 
 # %%
 data = np.genfromtxt(
-    fname=r"C:\Users\875367\Code\jr-rsch-ml\datasets\1b_train.csv",
+    fname=r"C:\Users\875367\Code\jr-rsch-ml\datasets\linear\1b_train.csv",
     usecols=(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
     skip_header=1,
     delimiter=",",

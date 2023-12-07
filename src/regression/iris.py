@@ -6,7 +6,7 @@ import linear as lin
 
 # %%
 data = np.genfromtxt(
-    fname=r"C:\Users\875367\Code\jr-rsch-ml\datasets\iris.csv",
+    fname=r"C:\Users\875367\Code\jr-rsch-ml\datasets\linear\iris.csv",
     usecols=(0, 1, 2, 3, 4),
     skip_header=1,
     delimiter=",",

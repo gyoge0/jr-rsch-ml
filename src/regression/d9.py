@@ -21,7 +21,7 @@ use_cols = (0, 1, 2, 3, 4)
 
 # load train data
 ds = np.genfromtxt(
-    fname=rf"C:\Users\875367\Code\jr-rsch-ml\datasets\{f_name}_train.csv",
+    fname=rf"C:\Users\875367\Code\jr-rsch-ml\datasets\linear\{f_name}_train.csv",
     delimiter=",",
     dtype=np.float64,
     skip_header=skip_header,
@@ -94,7 +94,7 @@ print(f"iterations: {best_i}")
 # %%
 # load test data
 ds_test = np.genfromtxt(
-    fname=rf"C:\Users\875367\Code\jr-rsch-ml\datasets\{f_name}_test.csv",
+    fname=rf"C:\Users\875367\Code\jr-rsch-ml\datasets\linear\{f_name}_test.csv",
     delimiter=",",
     dtype=np.float64,
     skip_header=True,

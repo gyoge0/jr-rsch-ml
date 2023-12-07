@@ -2,7 +2,7 @@
 import numpy as np
 
 
-# Importing the datasets
+# Importing the datasets\linear
 
 # =============================================================================
 # ==> RETURN THE NAME OF THE QB WITH THE MAX NUMBER OF ATTEMPTS AND THE ATTEMPT
