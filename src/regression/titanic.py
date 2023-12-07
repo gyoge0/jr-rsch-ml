@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
-import logistic_regression as log
-import linear_regression as lin
+import logistic as log
+import linear as lin
 
 # %%
 data = np.genfromtxt(

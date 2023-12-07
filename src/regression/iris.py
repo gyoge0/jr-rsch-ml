@@ -1,8 +1,8 @@
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
-from logistic_regression import logistic_error, gradient
-import logistic_regression as log
-import linear_regression as lin
+from logistic import logistic_error, gradient
+import logistic as log
+import linear as lin
 
 # %%
 data = np.genfromtxt(

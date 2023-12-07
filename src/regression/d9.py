@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import linear_regression as lin
+import linear as lin
 
 
 def seperator():

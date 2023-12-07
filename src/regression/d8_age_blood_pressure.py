@@ -1,6 +1,6 @@
 import numpy as np
 
-from linear_regression import (
+from linear import (
     fit_regression,
     mean_square_error,
     create_xy,
