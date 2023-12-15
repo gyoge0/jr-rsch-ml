@@ -104,7 +104,7 @@ def select_worst_best(actual_values, predicted_values, predicted_probabilities, 
     stacked_correct = stacked_correct[stacked_correct[:, 2].argsort()]
     stacked_wrong = stacked_wrong[stacked_wrong[:, 2].argsort()]
 
-    most_correct_guesses = stacked_correct[:9]
+    most_correct_guesses = stacked_correct[-9:]
     most_incorrect_guesses = stacked_wrong[-9:]
     return most_incorrect_guesses, most_correct_guesses
 
