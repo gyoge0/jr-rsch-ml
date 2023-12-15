@@ -76,20 +76,63 @@ print(f"num_correct: \t{num_correct}")
 print(f"num_false:   \t{num_false}")
 
 # %% find the probability difference between the biggest and correct indices
-max_probabilities_train = np.max(probabilities_train, axis=1)
-# https://numpy.org/doc/stable/reference/generated/numpy.argmax.html
-correct_probabilities_train = np.take_along_axis(
-    probabilities_train, np.expand_dims(train_labels.astype(int), axis=-1), axis=-1
-).flatten()
-differences_train = (max_probabilities_train - correct_probabilities_train).argsort()
+# max_probabilities_train = np.max(probabilities_train, axis=1)
+# # https://numpy.org/doc/stable/reference/generated/numpy.argmax.html
+# correct_probabilities_train = np.take_along_axis(
+#     probabilities_train, np.expand_dims(train_labels.astype(int), axis=-1), axis=-1
+# ).flatten()
+# differences_train = (max_probabilities_train - correct_probabilities_train).argsort()
 
-# %% plot the 5 images with the biggest differences
-fig1, ax1 = plt.subplots(2, 3)
-for i, ax in enumerate(ax1.flatten()):
-    image_index = differences_train[-(i + 1)]
-    ax.imshow(train_images_raw[image_index], cmap="gray")
-    ax.set_title(
-        f"expected {train_labels[image_index]}\tpredicted {predict_train[image_index]}"
+
+# %% find the images we got wrong and we were confident about
+def select_worst_best(actual_values, predicted_values, predicted_probabilities, images):
+    # Create a numpy array of max probabilities (using prob)
+    max_prob = np.max(predicted_probabilities, axis=1)
+
+    # Stack the predictions, actuals and probabilities with images
+    stacked = np.hstack(
+        (
+            actual_values.reshape(-1, 1),
+            predicted_values.reshape(-1, 1),
+            max_prob.reshape(-1, 1),
+            images,
+        )
     )
 
+    stacked_correct = stacked[stacked[:, 0] == stacked[:, 1]]
+    stacked_wrong = stacked[stacked[:, 0] != stacked[:, 1]]
+    stacked_correct = stacked_correct[stacked_correct[:, 2].argsort()]
+    stacked_wrong = stacked_wrong[stacked_wrong[:, 2].argsort()]
+
+    most_correct_guesses = stacked_correct[:9]
+    most_incorrect_guesses = stacked_wrong[-9:]
+    return most_incorrect_guesses, most_correct_guesses
+
+
+worst_guesses, best_guesses = select_worst_best(
+    numerical_train_labels,
+    predict_train,
+    probabilities_train,
+    train_images,
+)
+
+
+# %% plot the 9 worst images
+fig_worst, ax_worst = plt.subplots(3, 3, constrained_layout=True)
+for i, aw in enumerate(ax_worst.flatten()):
+    aw.imshow(worst_guesses[i, 3:].reshape((28, 28)), cmap="gray")
+    aw.set_title(f"expected {worst_guesses[i, 0]} predicted {worst_guesses[i, 1]}")
+fig_worst.suptitle("Worst")
+fig_worst.set_size_inches(8, 6)
+plt.savefig("figs/worst_mnist.png")
+plt.show()
+
+# %% plot the 9 best images
+fig_best, ax_best = plt.subplots(3, 3, constrained_layout=True)
+for i, ab in enumerate(ax_best.flatten()):
+    ab.imshow(best_guesses[i, 3:].reshape((28, 28)), cmap="gray")
+    ab.set_title(best_guesses[i, 0])
+fig_best.suptitle("Best")
+fig_best.set_size_inches(8, 6)
+plt.savefig("figs/best_mnist.png")
 plt.show()
