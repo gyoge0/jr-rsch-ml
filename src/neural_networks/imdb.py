@@ -66,7 +66,9 @@ y_train = y_train[10_000:]
 # %% create model
 model = models.Sequential(
     layers=[
-        layers.Dense(16, activation="relu", input_shape=(10_000,)),
+        layers.Dense(128, activation="relu", input_shape=(10_000,)),
+        layers.Dense(64, activation="relu"),
+        layers.Dense(32, activation="relu"),
         layers.Dense(16, activation="relu"),
         layers.Dense(1, activation="sigmoid"),
     ]
@@ -87,7 +89,7 @@ history = model.fit(
     x=x_train,
     y=y_train,
     batch_size=512,
-    epochs=20,
+    epochs=3,
     validation_data=(x_val, y_val),
 )
 
