@@ -69,6 +69,7 @@ model = models.Sequential(
         layers.Dense(128, activation="relu", input_shape=(10_000,)),
         layers.Dense(64, activation="relu"),
         layers.Dense(32, activation="relu"),
+        layers.Dropout(0.2, input_shape=(32,)),
         layers.Dense(16, activation="relu"),
         layers.Dense(1, activation="sigmoid"),
     ]
