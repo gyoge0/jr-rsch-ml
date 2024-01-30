@@ -19,7 +19,7 @@ Bottleneck==1.3.7
 cachetools==5.3.1
 catboost==1.2.2
 cattrs==23.2.3
-certifi==2023.7.22
+certifi==2023.11.17
 cffi==1.15.1
 cfgv==3.4.0
 chardet==5.2.0
