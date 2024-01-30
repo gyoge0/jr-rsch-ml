@@ -126,7 +126,7 @@ platformdirs==3.10.0
 plotly==5.18.0
 pre-commit==3.3.3
 prometheus-client==0.17.1
-prompt-toolkit==3.0.39
+prompt-toolkit==3.0.43
 protobuf==4.23.4
 psutil==5.9.5
 pure-eval==0.2.2
