@@ -115,7 +115,7 @@ orange-canvas-core==0.1.35
 orange-widget-base==4.22.0
 Orange3==3.36.2
 overrides==7.4.0
-packaging==23.1
+packaging==23.2
 pandas==2.0.3
 pandocfilters==1.5.0
 parso==0.8.3
