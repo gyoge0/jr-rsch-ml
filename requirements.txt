@@ -29,7 +29,7 @@ colorama==0.4.6
 comm==0.1.4
 commitizen==3.7.0
 commonmark==0.9.1
-contourpy==1.1.0
+contourpy==1.2.0
 cycler==0.11.0
 debugpy==1.6.7.post1
 decli==0.6.1
